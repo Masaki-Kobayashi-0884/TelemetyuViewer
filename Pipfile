@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+autopep8 = "*"
+flake8 = "*"
+
+[packages]
+pandas = "*"
+numpy = "*"
+matplotlib = "*"
+pyserial = "*"
+im920 = {git = "https://github.com/jjj999/im920_py"}
+pyproj = "*"
+
+[requires]
+python_version = "3.8"
