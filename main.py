@@ -4,10 +4,11 @@ import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from pyproj import geod
 
-# import communication as com
-import communication_ as com
+import communication as com
 import figure
 
+# 指定を推奨
+COMPORT = 'COM3'
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -22,19 +23,19 @@ class Application(tk.Frame):
         self.geo = geod.Geod(ellps='WGS84')
 
         # communication
-        self.com = com.Communication('COM3')
-        # [緯度, 経度, 高度]
+        self.com = com.Communication(COMPORT)
+        # [緯度, 経度(, 高度)]
 
         # figure
         self.fig_map = figure.Map()
-        self.fig_height = figure.Height()
+        # self.fig_height = figure.Height()
 
         # Tkinter
         super().__init__(master)
         self.master = master
         self.master.title("TelemetryViewer")
         self.master.geometry("1024x768")
-        self.master.resizable(False, False)
+        self.master.resizable(True, True)
         self.pack()
         self.create_widgets()
         self.master.after(1000, self.update_widgets)
@@ -48,9 +49,9 @@ class Application(tk.Frame):
         self.canvas_map.draw()
         self.canvas_map.get_tk_widget().pack()
 
-        self.canvas_height = FigureCanvasTkAgg(self.fig_height.fig, master=self.frame_canvas)
-        self.canvas_height.draw()
-        self.canvas_height.get_tk_widget().pack()
+        # self.canvas_height = FigureCanvasTkAgg(self.fig_height.fig, master=self.frame_canvas)
+        # self.canvas_height.draw()
+        # self.canvas_height.get_tk_widget().pack()
 
         # 情報
         self.frame_info = tk.Frame(self.master)
@@ -68,14 +69,14 @@ class Application(tk.Frame):
         self.info_lat = tk.Label(self.frame_info, text="0.0°E", font=("メイリオ", 18))
         self.text_lon = tk.Label(self.frame_info, text='Longitude', font=("メイリオ", 18))
         self.info_lon = tk.Label(self.frame_info, text="0.0°E", font=("メイリオ", 18))
-        self.text_hight = tk.Label(self.frame_info, text='Height', font=("メイリオ", 18))
-        self.info_hight = tk.Label(self.frame_info, text="0.0 m", font=("メイリオ", 18))
+        # self.text_hight = tk.Label(self.frame_info, text='Height', font=("メイリオ", 18))
+        # self.info_hight = tk.Label(self.frame_info, text="0.0 m", font=("メイリオ", 18))
         labels_bottom = [self.text_lat,
                          self.info_lat,
                          self.text_lon,
-                         self.info_lon,
-                         self.text_hight,
-                         self.info_hight]
+                         self.info_lon,]
+                        #  self.text_hight,
+                        #  self.info_hight]
         [label.pack(side=tk.BOTTOM) for label in labels_bottom[::-1]]
 
     def update_widgets(self):
@@ -91,7 +92,7 @@ class Application(tk.Frame):
             self.info_signal["fg"] = "green"
             self.info_lat["text"] = str(self.latitude) + "°E"
             self.info_lon["text"] = str(self.longitude) + "°N"
-            self.info_hight["text"] = str(self.height) + " m"
+            # self.info_hight["text"] = str(self.height) + " m"
         else:  # 失敗
             self.latitude = None
             self.longitude = None
@@ -111,8 +112,8 @@ class Application(tk.Frame):
         self.fig_map.update(x, y)
         self.canvas_map.draw()
 
-        self.fig_height.update(self.height)
-        self.canvas_height.draw()
+        # self.fig_height.update(self.height)
+        # self.canvas_height.draw()
 
         self.master.after(1000, self.update_widgets)
 

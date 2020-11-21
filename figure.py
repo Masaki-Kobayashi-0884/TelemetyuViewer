@@ -25,7 +25,7 @@ class Map:
 
         self.x_list = list()
         self.y_list = list()
-        self.lines, = self.ax.plot(self.x_list, self.y_list, color='red', marker='.')
+        self.lines, = self.ax.plot(self.x_list, self.y_list, color='orange', marker='.')
 
         self.ax.set_xlim(-1500, 500)
         self.ax.set_ylim(-500, 1000)

@@ -1,3 +1,5 @@
+# テスト用
+
 class Communication():
     def __init__(self, port="COM3"):
         with open("test/data.csv", 'r') as f:

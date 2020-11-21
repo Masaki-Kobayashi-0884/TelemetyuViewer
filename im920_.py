@@ -1,3 +1,4 @@
+# テスト用
 import sys
 
 
@@ -13,7 +14,7 @@ class Im920:
     def buf(self):
         r = self._buf
         if len(self._buf) == 0:
-            self.i += 3
+            self.i += 1
             self.update_buf()
         return r
 
@@ -24,7 +25,7 @@ class Im920:
 
     def update_buf(self):
         try:
-            self._buf = self.data[self.i:self.i + 3]
+            self._buf = self.data[self.i].split(',')
         except IndexError:
             print("data end")
             sys.exit()
